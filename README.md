@@ -7,11 +7,11 @@ This is the official website for the ME2 (Multimodal Explanations for Mathematic
 
 Jaewoo Park*, Jungyang Park*, Dongju Jang, Jiwan Chung, Byungwoo Yoo, Jaewoo Shin, Seonjoon Park, Taehyeong Kim, Youngjae Yu†
 
-*Equal Contribution
+*Equal Contribution, †Corresponding author
 
 ## Links
-- [Paper](https://arxiv.org/pdf/2504.03197)
 - [arXiv](https://arxiv.org/abs/2504.03197)
+- [Appendix](./static/appendix.pdf)
 - [Code](https://github.com/jeirfe/ME2)
 - [Dataset](https://huggingface.co/datasets/jeirfe/ME2)
 
