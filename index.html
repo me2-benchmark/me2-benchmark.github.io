@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="A multimodal benchmark for evaluating mathematical solution explanation with visual keypoints.">
+  <meta name="keywords" content="Multimodal Learning, Mathematical Reasoning, Educational AI, Visual Explanation">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ME2: Explain with Visual Keypoints Like a Real Mentor! A Benchmark for Multimodal Solution Explanation</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  <!-- MathJax for LaTeX -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+</head>
+<body>
+<!-- 
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://keunhong.com">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://hypernerf.github.io">
+            HyperNeRF
+          </a>
+          <a class="navbar-item" href="https://nerfies.github.io">
+            Nerfies
+          </a>
+          <a class="navbar-item" href="https://latentfusion.github.io">
+            LatentFusion
+          </a>
+          <a class="navbar-item" href="https://photoshape.github.io">
+            PhotoShape
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav>
+ -->
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-3 publication-title">Explain with Visual Keypoints Like a Real Mentor!<br>A Benchmark for Multimodal Solution Explanation</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://jerife.org/cv">Jaewoo Park</a><sup style="color: #FD8CC0;">1</sup><sup>*</sup>,</span>
+            <span class="author-block">
+              Jungyang Park<sup style="color: #FD8CC0;">1</sup>,<sup style="color: #BD8580;">2</sup><sup>*</sup>,</span>
+            <span class="author-block">
+              Dongju Jang<sup style="color: #FD8CC0;">1</sup>,
+            </span>
+            <span class="author-block">
+              Jiwan Chung<sup style="color: #FD8CC0;">1</sup>,
+            </span>
+            <span class="author-block">
+              Byungwoo Yoo<sup style="color: #BD8580;">2</sup>,
+            </span>
+            <span class="author-block">
+              Jaewoo Shin<sup style="color: #BD8580;">2</sup>,
+            </span>
+            <span class="author-block">
+              Seonjoon Park<sup style="color: #BD8580;">2</sup>,
+            </span>
+            <span class="author-block">
+              Taehyeong Kim<sup style="color: #BD8580;">2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://yj-yu.github.io/home/">Youngjae Yu</a><sup style="color: #485972;">3</sup><sup>†</sup>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup style="color: #FD8CC0;">1</sup>Yonsei University,</span>
+            <span class="author-block"><sup style="color: #BD8580;">2</sup>Mathpresso,</span>
+            <span class="author-block"><sup style="color: #485972;">3</sup>Seoul National University</span>
+            <p style="height: 10px;">&nbsp;</p> 
+                <span class="eql-cntrb"><small><sup>*</sup>Equal Contribution.</small></span>
+                    <span class="eql-cntrb"><small><sup>†</sup>Corresponding author.</small></span><br>
+            <p style="height: 5px;">&nbsp;</p>
+            <div class="is-size-5 has-text-centered">
+              <strong>AAAI 2026 Main Track</strong>
+            </div>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- arXiv Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2504.03197"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="./static/appendix.pdf"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-alt"></i>
+                  </span>
+                  <span>Appendix</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/jeirfe/ME2"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+              <!-- Dataset Link. -->
+              <span class="link-block">
+                <a href="https://huggingface.co/datasets/jeirfe/ME2"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <img src="./static/logo_hf.png" alt="HF" style="width: 24px; height: 24px;">
+                  </span>
+                  <span>Dataset</span>
+                  </a>
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="photo-section">
+      <img src="static/fig_teaser.png" alt="ME2 Benchmark Teaser" style="width: 800px; height: auto;">
+    </div>
+  </div>
+</section>
+
+  
+<!-- <section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <video id="teaser" autoplay muted loop playsinline height="100%">
+        <source src="./static/videos/teaser.mp4"
+                type="video/mp4">
+      </video>
+      <h2 class="subtitle has-text-centered">
+        <span class="dnerf">Nerfies</span> turns selfie videos from your phone into
+        free-viewpoint
+        portraits.
+      </h2>
+    </div>
+  </div>
+</section>
+ -->
+<!-- 
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-steve">
+          <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/steve.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-chair-tp">
+          <video poster="" id="chair-tp" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/chair-tp.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-shiba">
+          <video poster="" id="shiba" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/shiba.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-fullbody">
+          <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/fullbody.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-blueshirt">
+          <video poster="" id="blueshirt" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/blueshirt.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-mask">
+          <video poster="" id="mask" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/mask.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-coffee">
+          <video poster="" id="coffee" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/coffee.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-toby">
+          <video poster="" id="toby" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/toby2.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+</section> -->
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+With the rapid advancement of mathematical reasoning capabilities in Large Language Models (LLMs), AI systems are increasingly being adopted in educational settings to support students' comprehension of problem-solving processes. However, a critical component remains underexplored in current LLM-generated explanations: <strong>multimodal explanation</strong>. In real-world instructional contexts, human tutors routinely employ visual aids, such as diagrams, markings, and highlights, to enhance conceptual clarity. To bridge this gap, we introduce the <strong>multimodal solution explanation task</strong>, designed to evaluate whether models can identify visual keypoints, such as auxiliary lines, points, angles, and generate explanations that incorporate these key elements essential for understanding.
+          </p>
+          <p>
+To evaluate model performance on this task, we propose <strong>ME2</strong>, a multimodal benchmark consisting of 1,000 math problems annotated with visual keypoints and corresponding explanatory text that references those elements. Our empirical results show that, aside from recent large-scale open-source and closed-source models, most generalist open-source models, and even math-specialist models, struggle with the multimodal solution explanation task. This highlights a significant gap in current LLMs' ability to reason and explain with visual grounding in educational contexts.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+    <!--/ Abstract. -->
+    
+    <!-- ME2 Benchmark Overview -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">ME2 Benchmark Overview</h2>
+        <div class="photo-section" style="text-align: center;">
+          <img src="static/fig_benchmark_overview.png" style="width: 800px; height: auto; display: block; margin: 0 auto;">
+          <p style="margin-top: 15px; text-align: justify;">
+            <strong>ME2</strong> is a multimodal solution explanation benchmark consisting of 1,000 instances. Each instance contains a problem text (T<sub>p</sub>), a problem image (I<sub>p</sub>), an explanatory solution text (T<sub>s</sub>), a solution image (I<sub>s</sub>), and visual keypoints (VK) that highlight how the solution image differs from the original, along with a concise summary of the explanation.
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Task Overview -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Task Overview</h2>
+        <div class="photo-section" style="text-align: center;">
+          <img src="static/fig_task_overview.png" style="width: 800px; height: auto; display: block; margin: 0 auto;">
+          <p style="margin-top: 15px; text-align: justify;">
+            We propose two subtasks to robustly analyze multimodal solution explanation capacity: <strong>(1) Visual Keypoint Identification</strong>, which challenges machines to recognize visual keypoints useful for subsequent explanation, and <strong>(2) Keypoint-based Explanation Generation</strong>, which requires models to generate explanations that explicitly reference the identified visual keypoints.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!--/ Abstract. -->
+    
+    <!-- Dataset Statistics -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Dataset Statistics</h2>
+        <div class="content has-text-justified">
+          <div class="columns">
+            <div class="column">
+              <h4 class="title is-5">Problem Distribution</h4>
+              <ul>
+                <li><strong>Total problems:</strong> 1,000</li>
+                <li><strong>Geometry problems:</strong> 763</li>
+                <li><strong>Algebra problems:</strong> 237</li>
+                <li><strong>Multiple-choice questions:</strong> 464</li>
+                <li><strong>Short-answer questions:</strong> 536</li>
+              </ul>
+            </div>
+            <div class="column">
+              <h4 class="title is-5">Visual Keypoints</h4>
+              <ul>
+                <li><strong>Average keypoints per problem:</strong> 3.8</li>
+                <li><strong>Maximum words in problem text:</strong> 211</li>
+                <li><strong>Maximum words in solution text:</strong> 322</li>
+                <li><strong>Coverage:</strong> 17 chapters, 33 sections</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Qualitative Results -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Qualitative Results</h2>
+        <div class="photo-section" style="text-align: center;">
+          <img src="static/fig_qualitative1.png" style="width: 800px; height: auto; display: block; margin: 0 auto;">
+          <p style="margin-top: 10px; margin-bottom: 20px; text-align: justify;">
+            Examples of multimodal solution explanations from ME2 benchmark showing visual keypoints and corresponding explanatory text.
+          </p>
+          <img src="static/fig_qualitative2.png" style="width: 800px; height: auto; display: block; margin: 0 auto;">
+          <p style="margin-top: 10px; text-align: justify;">
+            Additional examples demonstrating the diversity of visual elements and explanation styles in the ME2 dataset.
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Experimental Results -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Experimental Results</h2>
+        <div class="content has-text-justified">
+          <p>
+            We evaluate state-of-the-art multimodal large language models on ME2 benchmark across two main tasks:
+          </p>
+          <h4 class="title is-5">Key Findings</h4>
+          <ul>
+            <li><strong>Visual Keypoint Identification:</strong> Most open-source models struggle to identify relevant visual keypoints, with accuracy ranging from 0.006 to 0.149 for top models.</li>
+            <li><strong>Keypoint-based Explanation Generation:</strong> Even when provided with correct keypoints, models find it challenging to generate explanations that effectively reference visual elements.</li>
+            <li><strong>Performance Gap:</strong> Closed-source models (GPT-4o, Gemini 2.0 Flash) significantly outperform open-source alternatives, highlighting the complexity of multimodal explanation tasks.</li>
+            <li><strong>Educational Impact:</strong> The benchmark reveals critical limitations in current AI systems' ability to provide educationally effective visual explanations.</li>
+          </ul>
+          <p>
+            These results underscore the need for further research in multimodal reasoning and visual grounding for educational applications.
+          </p>
+        </div>
+      </div>
+    </div>
+
+
+    
+    <!-- Paper video. -->
+<!--     <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Video</h2>
+        <div class="publication-video">
+          <iframe src="https://youtu.be/Hdd5TY6YpeE?si=KbPvZU5VR4EJG7xB"
+                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div> -->
+    <!--/ Paper video. -->
+  </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@misc{park2025explainvisualkeypointslike,
+      title={Explain with Visual Keypoints Like a Real Mentor! A Benchmark for Multimodal Solution Explanation}, 
+      author={Jaewoo Park and Jungyang Park and Dongju Jang and Jiwan Chung and Byungwoo Yoo and Jaewoo Shin and Seonjoon Park and Taehyeong Kim and Youngjae Yu},
+      year={2025},
+      eprint={2504.03197},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2504.03197},  
+}</code></pre>
+  </div>
+</section>
+
+<!-- University Logos -->
+<section class="section" style="padding-top: 0rem; padding-bottom: 2rem;">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-narrow has-text-centered" style="margin: 0 1rem;">
+        <img src="./static/logo_yonsei.png" alt="Yonsei University" style="height: 110px; width: auto;">
+      </div>
+      <div class="column is-narrow has-text-centered" style="margin: 0 1rem;">
+        <img src="./static/logo_snu.png" alt="Seoul National University" style="height: 110px; width: auto;">
+      </div>
+      <div class="column is-narrow has-text-centered" style="margin: 0 1rem;">
+        <img src="./static/logo_mathpresso.jpg" alt="Mathpresso" style="height: 110px; width: auto;">
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+          This website template is borrowed from the <a
+              href="https://github.com/nerfies/nerfies.github.io">nerfies website</a>.
+
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
